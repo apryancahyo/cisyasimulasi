@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+body{
+   font-family:'Quicksand', sans-serif ;
+   width: 600px;
+   margin: 20px auto;
+   text-align: center;
+}
+.angsuran {
+   background-color:green;
+   color: white;
+   border: 20;
+   padding: 20px;
+   margin-top:20px;
+  border-radius: 20px;
+}
+
+h1{
+   color: black;
+   border-bottom:2px solid;
+   margin-bottom:20px;
+}
+div{
+   color: black;
+   margin-bottom: 20px;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Simulasi Cicilan Per Bulan Anda</h1>
+<div>
+<label for="harga">Kisaran Harga Barang</label><br>
+<input id="harga-barang" onkeyup="hitung()" type="number" max="1000">
+</div>
+<div>
+   <label for="jangka">Jangka Waktu Cicilan</label><br>
+      <select id="jangka" onchange="hitung()">
+       <option value="1">1 Bulan</option>
+       <option value="2">2 Bulan</option>
+       <option value="3">3 Bulan</option>
+       <option value="6">6 Bulan</option>
+       <option value="9">9 Bulan</option>
+       <option value="12">12 Bulan</option>
+      </select>
+</div>
+
+<div> 
+   <label>Biaya Angsuran</label>
+   <div class="angsuran">
+   Rp <span id="biaya-angsuran">0</span>/Bulan <br>
+  
+   </div>
+</div>
+
+<div id="tambahan">
+ <label>Rekomendasi Kami dengan cicilan 6x</label>
+ <div class="angsuran" id="tambahan-1" style="background: #f00;">
+   Rp <span id="biaya-angsuran-1">0</span>/Bulan <br>
+</div>
+
+ <label>Rekomendasi Kami dengan cicilan 9x</label>
+ <div class="angsuran" id="tambahan-2" style="background: #00f;">
+   Rp <span id="biaya-angsuran-2">0</span>/Bulan
+</div>
+
+</div>
+<script>
+function hitung() {
+  var harga = parseInt(document.getElementById("harga-barang").value);
+  var angsur = document.getElementById("jangka").value;
+  var div_tambahan = document.getElementById("tambahan");
+
+  var angsur_int = parseInt(angsur);
+if (angsur_int <= 3)
+{
+   div_tambahan.style.display = 'block';
+}else
+{
+   div_tambahan.style.display = 'none';
+
+}
+
+if(harga < 5000000)
+{
+
+   //edit bunga
+    var bunga = {
+         "1" : 15,
+         "2" : 18,
+         "3" : 20,
+         "6" : 23,
+         "9" : 25,
+         "12" : 35,
+     };  
+}
+else if (harga > 5000000)
+{
+
+   //edit bunga
+    var bunga = {
+         "1" : 13,
+         "2" : 16,
+         "3" : 16,
+         "6" : 18,
+         "9" : 20,
+         "12" : 30,
+     };  
+}
+ 
+
+  var biaya = parseFloat(harga*(1+bunga[angsur]/100)/angsur).toFixed(0);
+  document.getElementById("biaya-angsuran").innerHTML = biaya;
+   
+
+   var biaya1 = parseFloat(harga*(1+bunga['6']/100)/6).toFixed(0);
+  document.getElementById("biaya-angsuran-1").innerHTML = biaya1;
+   
+   var biaya2 = parseFloat(harga*(1+bunga[9]/100)/9).toFixed(0);
+  document.getElementById("biaya-angsuran-2").innerHTML = biaya2;
+
+}
+</script>
+
+
+</body>
+</html>
