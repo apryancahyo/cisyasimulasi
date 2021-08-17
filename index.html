@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Page Title</title>
+<html><head>
+<title>cisya.id</title>
 
 <style type="text/css">
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
@@ -38,7 +36,7 @@ div{
 <h1>Simulasi Cicilan Per Bulan Anda</h1>
 <div>
 <label for="harga">Kisaran Harga Barang</label><br>
-<input id="harga-barang" onkeyup="hitung()" type="number" max="1000">
+<input id="harga-barang" onkeyup="hitung()" type="text">
 </div>
 <div>
    <label for="jangka">Jangka Waktu Cicilan</label><br>
@@ -48,7 +46,7 @@ div{
        <option value="3">3 Bulan</option>
        <option value="6">6 Bulan</option>
        <option value="9">9 Bulan</option>
-       <option value="12" selected>12 Bulan</option>
+       <option value="12" selected="">12 Bulan</option>
       </select>
 </div>
 
@@ -60,7 +58,7 @@ div{
    </div>
 </div>
 
-<div id="tambahan">
+<div id="tambahan" style="display: none;">
  <label>Rekomendasi Kami dengan cicilan 6x</label>
  <div class="angsuran" id="tambahan-1" style="background: #f00;">
    Rp <span id="biaya-angsuran-1">0</span>/Bulan <br>
@@ -73,12 +71,21 @@ div{
 
 </div>
 <script>
+
+var fnf = document.getElementById("harga-barang");
+fnf.addEventListener('keyup', function(evt){
+    var n = parseInt(this.value.replace(/\D/g,''),10);
+    fnf.value = isNaN(n) ? '0' : n.toLocaleString().replace(/,/g, '.');
+
+}, false);
+
 hitung();
 function hitung() {
-  var harga = parseInt(document.getElementById("harga-barang").value);
+  var harga = parseInt(document.getElementById("harga-barang").value.replace(/\./g, ""));
   var angsur = document.getElementById("jangka").value;
   var div_tambahan = document.getElementById("tambahan");
 
+  
   var angsur_int = parseInt(angsur);
 if (angsur_int <= 3)
 {
@@ -117,19 +124,25 @@ else if (harga > 5000000)
 }
  
 
-  var biaya = parseFloat(harga*(1+bunga[angsur]/100)/angsur).toFixed(0);
+  var biaya = bulatkan(harga*(1+bunga[angsur]/100)/angsur);
   document.getElementById("biaya-angsuran").innerHTML = biaya;
    
 
-   var biaya1 = parseFloat(harga*(1+bunga['6']/100)/6).toFixed(0);
+   var biaya1 = bulatkan(harga*(1+bunga['6']/100)/6);
   document.getElementById("biaya-angsuran-1").innerHTML = biaya1;
    
-   var biaya2 = parseFloat(harga*(1+bunga[9]/100)/9).toFixed(0);
+   var biaya2 = bulatkan(harga*(1+bunga[9]/100)/9);
   document.getElementById("biaya-angsuran-2").innerHTML = biaya2;
 
+}
+
+function bulatkan(bilangan)
+{
+   return parseFloat((Math.ceil(bilangan/1000))*1000).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 </script>
 
 
-</body>
-</html>
+
+
+</body></html>
